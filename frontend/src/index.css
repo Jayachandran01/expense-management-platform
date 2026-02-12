@@ -1,0 +1,522 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f8fafc;
+    --color-bg-tertiary: #f1f5f9;
+    --color-bg-elevated: #ffffff;
+    --color-bg-overlay: rgba(15, 23, 42, 0.5);
+
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #475569;
+    --color-text-tertiary: #94a3b8;
+    --color-text-inverse: #ffffff;
+
+    --color-border-primary: #e2e8f0;
+    --color-border-secondary: #f1f5f9;
+
+    --color-brand: #4f46e5;
+    --color-brand-light: #eef2ff;
+
+    --sidebar-width: 272px;
+    --sidebar-collapsed-width: 72px;
+    --navbar-height: 64px;
+  }
+
+  .dark {
+    --color-bg-primary: #0f172a;
+    --color-bg-secondary: #1e293b;
+    --color-bg-tertiary: #334155;
+    --color-bg-elevated: #1e293b;
+    --color-bg-overlay: rgba(0, 0, 0, 0.6);
+
+    --color-text-primary: #f1f5f9;
+    --color-text-secondary: #94a3b8;
+    --color-text-tertiary: #64748b;
+    --color-text-inverse: #0f172a;
+
+    --color-border-primary: #334155;
+    --color-border-secondary: #1e293b;
+
+    --color-brand: #818cf8;
+    --color-brand-light: #1e1b4b;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    line-height: 1.5;
+    font-size: 0.875rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  ::selection {
+    background-color: rgba(99, 102, 241, 0.2);
+    color: inherit;
+  }
+}
+
+/* ========================================
+   Enterprise Scrollbar
+   ======================================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-primary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-primary) transparent;
+}
+
+/* ========================================
+   Component Base Styles
+   ======================================== */
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .glass {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .input-field {
+    @apply w-full px-3.5 py-2.5 text-body rounded-xl border transition-all duration-200 outline-none;
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-border-primary);
+    color: var(--color-text-primary);
+  }
+
+  .input-field:focus {
+    @apply ring-2 ring-brand-500/20 border-brand-500;
+  }
+
+  .input-field::placeholder {
+    color: var(--color-text-tertiary);
+  }
+
+  .btn-primary {
+    @apply px-4 py-2.5 bg-brand-600 text-white font-medium rounded-xl text-body;
+    @apply hover:bg-brand-700 active:bg-brand-800;
+    @apply transition-all duration-200 shadow-soft hover:shadow-elevated;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-soft;
+    @apply focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:ring-offset-2;
+  }
+
+  .dark .btn-primary {
+    @apply focus:ring-offset-surface-900;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2.5 font-medium rounded-xl text-body;
+    @apply transition-all duration-200;
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-border-primary);
+  }
+
+  .btn-ghost {
+    @apply px-4 py-2.5 font-medium rounded-xl text-body transition-all duration-200;
+    color: var(--color-text-secondary);
+  }
+
+  .btn-ghost:hover {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+  }
+
+  .enterprise-card {
+    background-color: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-secondary);
+    @apply rounded-2xl shadow-card;
+    @apply transition-all duration-250;
+  }
+
+  .enterprise-card:hover {
+    @apply shadow-elevated;
+  }
+
+  .kpi-card {
+    background-color: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-secondary);
+    @apply rounded-2xl p-6 relative overflow-hidden;
+    @apply transition-all duration-250;
+  }
+
+  .kpi-card:hover {
+    @apply shadow-elevated -translate-y-0.5;
+  }
+
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--kpi-accent, theme('colors.brand.500'));
+    border-radius: 2px 2px 0 0;
+  }
+
+  .page-header {
+    @apply mb-8;
+  }
+
+  .page-title {
+    @apply text-heading-1 font-bold tracking-tight;
+    color: var(--color-text-primary);
+  }
+
+  .page-subtitle {
+    @apply text-body mt-1;
+    color: var(--color-text-secondary);
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-lg text-caption font-medium;
+  }
+
+  .badge-success {
+    @apply bg-success-50 text-success-600;
+  }
+
+  .dark .badge-success {
+    @apply bg-success-600/10 text-success-400;
+  }
+
+  .badge-warning {
+    @apply bg-warning-50 text-warning-600;
+  }
+
+  .dark .badge-warning {
+    @apply bg-warning-600/10 text-warning-400;
+  }
+
+  .badge-danger {
+    @apply bg-danger-50 text-danger-600;
+  }
+
+  .dark .badge-danger {
+    @apply bg-danger-600/10 text-danger-400;
+  }
+
+  .badge-brand {
+    @apply bg-brand-50 text-brand-600;
+  }
+
+  .dark .badge-brand {
+    @apply bg-brand-600/10 text-brand-400;
+  }
+
+  .tooltip {
+    @apply absolute z-50 px-3 py-1.5 text-caption font-medium rounded-lg;
+    @apply bg-surface-900 text-white shadow-elevated;
+    @apply opacity-0 invisible transition-all duration-200;
+    @apply pointer-events-none;
+  }
+
+  .has-tooltip:hover .tooltip {
+    @apply opacity-100 visible;
+  }
+}
+
+/* ========================================
+   Skeleton / Shimmer Loading
+   ======================================== */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-bg-tertiary);
+  border-radius: 0.75rem;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ========================================
+   Transitions
+   ======================================== */
+.transition-page {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+/* ========================================
+   Progress Bar
+   ======================================== */
+.progress-bar {
+  @apply h-2 rounded-full overflow-hidden;
+  background-color: var(--color-bg-tertiary);
+}
+
+.progress-bar-fill {
+  @apply h-full rounded-full transition-all duration-700 ease-out;
+}
+
+/* ========================================
+   Drawer / Panel Overlay
+   ======================================== */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: var(--color-bg-overlay);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.drawer-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--color-bg-primary);
+  border-left: 1px solid var(--color-border-primary);
+  animation: slideInRight 0.3s ease-out;
+  overflow-y: auto;
+}
+
+/* ========================================
+   Toast overrides
+   ======================================== */
+.toast-enterprise {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.875rem !important;
+  border-radius: 0.75rem !important;
+  padding: 12px 16px !important;
+}
+
+/* ========================================
+   Chart container
+   ======================================== */
+.chart-container {
+  position: relative;
+  width: 100%;
+}
+
+.chart-container canvas {
+  max-width: 100%;
+}
+
+/* ========================================
+   Number counter animation
+   ======================================== */
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.count-animate {
+  animation: countUp 0.6s ease-out;
+}
+
+/* ========================================
+   Focus ring
+   ======================================== */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:ring-offset-1;
+}
+
+.dark .focus-ring {
+  @apply focus:ring-offset-surface-900;
+}
+
+/* ========================================
+   Additional Animation Utilities
+   ======================================== */
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInUpSmall {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUpSmall 0.3s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Group hover tooltip */
+.group:hover .tooltip {
+  @apply opacity-100 visible;
+}
+
+/* Shadow utilities for modals */
+.shadow-modal {
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
