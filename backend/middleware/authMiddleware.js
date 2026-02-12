@@ -4,25 +4,42 @@ const { AuthenticationError } = require('./errorMiddleware');
 /**
  * Authentication Middleware — verify JWT access token
  */
+const db = require('../database/connection');
+
+/**
+ * Authentication Middleware — Auto-login for development
+ */
 const authMiddleware = async (req, res, next) => {
     try {
-        const authHeader = req.headers.authorization;
+        // BYPASS AUTH: Always use the first user in the database
+        let user = await db('users').first();
 
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            throw new AuthenticationError('No token provided');
+        if (!user) {
+            // Create a default user if none exists
+            const [newUser] = await db('users').insert({
+                email: 'test@example.com',
+                password_hash: '$2b$10$EpIxT98hP7/qGNq1q1q1q1q1q1q1q1q1q1q1q1q1q1q1q1q1', // dummy hash
+                full_name: 'Test User',
+                role: 'admin',
+                currency: 'USD',
+                created_at: new Date(),
+                updated_at: new Date()
+            }).returning('*');
+            user = newUser;
         }
 
-        const token = authHeader.split(' ')[1];
+        req.user = {
+            id: user.id,
+            email: user.email,
+            role: user.role
+        };
 
-        try {
-            const decoded = verifyToken(token);
-            req.user = decoded;
-            next();
-        } catch (error) {
-            throw new AuthenticationError('Invalid or expired token');
-        }
+        next();
     } catch (error) {
-        next(error);
+        // If DB fails, just pass an error or mock completely
+        console.error('Auth Bypass Error:', error);
+        req.user = { id: '00000000-0000-0000-0000-000000000000', email: 'offline@user.com', role: 'admin' };
+        next();
     }
 };
 

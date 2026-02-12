@@ -11,7 +11,7 @@ A comprehensive financial analytics and expense tracking platform built with **R
 *   **Transaction Import**: Supports CSV imports for bulk data entry.
 *   **OCR Receipt Scanning**: Extract data from receipt images (requires valid backend setup).
 *   **Group Expenses**: Split bills with friends or colleagues.
-*   **Secure Authentication**: JWT-based login and registration.
+*   **Secure Authentication**: JWT-based login (Currently **bypassed** for easier testing/development).
 
 ## 🛠 Tech Stack
 

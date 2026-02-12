@@ -18,11 +18,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Check if user is already logged in
-        const currentUser = authService.getCurrentUser();
-        if (currentUser) {
-            setUser(currentUser);
-        }
+        // BYPASS: Auto-login on mount
+        const dummyUser: User = {
+            id: 'bypass-id',
+            email: 'test@example.com',
+            full_name: 'Test User',
+            role: 'admin',
+            currency: 'USD',
+            timezone: 'UTC',
+            created_at: new Date().toISOString(),
+            is_active: true,
+            is_verified: true
+        };
+        setUser(dummyUser);
         setIsLoading(false);
     }, []);
 

@@ -1,8 +1,13 @@
 // User types
 export interface User {
-    id: number;
+    id: string | number;
     email: string;
     full_name: string;
+    role?: string;
+    currency?: string;
+    timezone?: string;
+    is_active?: boolean;
+    is_verified?: boolean;
     created_at: string;
 }
 
